@@ -15,9 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.appescaladegame.modele.Mur
 import com.example.appescaladegame.ui.theme.AccentGreen01
+import com.example.appescaladegame.ui.theme.flash
+import ir.ehsannarmani.compose_charts.extensions.format
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format
 import kotlinx.datetime.format.DateTimeFormat
@@ -54,19 +58,39 @@ fun MurItem(mur: Mur) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = mur.dateComplete.format(format))
-            Text(text = "+ ${mur.score} XP")
+            Text(text = "+ ${mur.score.format(2)} XP")
         }
 
-        Spacer(modifier = Modifier.height(4.dp).fillMaxWidth())
+        Spacer(modifier = Modifier
+            .height(4.dp)
+            .fillMaxWidth())
         
         Row (
             Modifier
                 .background(Color.White, shape = RoundedCornerShape(6.dp))
-                .fillMaxWidth().padding(15.dp),
+                .fillMaxWidth()
+                .padding(15.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ){
-            Text(text = "${mur.nbEssais}")
-            Text(text = mur.difficulte)
+            if(mur.nbEssais == 1) {
+                Text(
+                    text = "FLASH",
+                    color = flash,
+                    fontWeight = FontWeight.Bold
+                )
+
+            }
+            else {
+                Text(
+                    text = "${mur.nbEssais} essais"
+                )
+            }
+
+            Text(
+                text = mur.difficulte,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }

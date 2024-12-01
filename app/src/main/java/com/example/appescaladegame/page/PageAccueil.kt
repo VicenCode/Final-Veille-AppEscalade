@@ -191,7 +191,7 @@ fun PageAccueil(navController: NavController) {
                     .padding(vertical = 20.dp),
             ){
                 Text(
-                    text = "Murs",
+                    text = "Murs (${mursAfficher.size})",
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = AccentGreen02
@@ -204,14 +204,15 @@ fun PageAccueil(navController: NavController) {
                     .fillMaxWidth()
                     //.border(width = 2.dp, color = Color.Red, shape = RectangleShape)
                 ) {
-                if(listeMurs.size == 0) {
+                if(mursAfficher.size == 0) {
                     Text(text = "Aucun Mur trouvé")
                 } else {
+                    val mursListeParcourir = mursAfficher.reversed()
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ){
-                        items(count = listeMurs.size) { index ->
-                            val mur = listeMurs[index];
+                        items(count = mursListeParcourir.size) { index ->
+                            val mur = mursListeParcourir[index];
                             MurItem(mur = mur);
                         }
                     }

@@ -26,7 +26,7 @@ class FileService(
     }
 
     init {
-        //resetFiles();
+        resetFiles();
         if(isFichierExiste(fichierJsonUtilisateurPath) || isFichierExiste(fichierJsonMursPath)) {
             utilisateurInBD = readUserData();
             mursInBD = readMursData();
@@ -135,17 +135,17 @@ class FileService(
         val listeBadges = utilisateurInBD.badges
 
 
-        if(mursInBD.size == 1 && !listeBadges.contains(Badge("Premier Mur", "permier_mur_badge.png"))) {
-            listeBadges.add(Badge("Premier Mur", "permier_mur_badge.png"))
+        if(mursInBD.size == 1 && !listeBadges.contains(Badge("Premier Mur", "badge_premier_mur"))) {
+            listeBadges.add(Badge("Premier Mur", "badge_premier_mur"))
         }
 
 
-        if(mursInBD.filter { mur ->  mur.nbEssais == 1}.size == 10 && !listeBadges.contains(Badge("10eme Flash", "10eme_flash_badge.png"))) {
-            listeBadges.add(Badge("10eme Flash", "10eme_flash_badge.png"))
+        if(mursInBD.filter { mur ->  mur.nbEssais == 1}.size == 10 && !listeBadges.contains(Badge("10eme Flash", "badge_10eme_flash"))) {
+            listeBadges.add(Badge("10eme Flash", "badge_10eme_flash"))
         }
 
-        if(mursInBD.size >= 20 && !listeBadges.contains(Badge("20 Murs", "20_murs_badge.png"))) {
-            listeBadges.add(Badge("20 Murs", "20_murs_badge.png"))
+        if(mursInBD.size >= 20 && !listeBadges.contains(Badge("20 Murs", "badge_20_murs"))) {
+            listeBadges.add(Badge("20 Murs", "badge_20_murs"))
         }
     }
 

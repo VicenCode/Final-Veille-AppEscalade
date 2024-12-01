@@ -317,16 +317,17 @@ fun PageAjoutMur(navController: NavController) {
                 onDismissRequest = { isExpanded = !isExpanded },
                 modifier = Modifier
                     .height(200.dp)
-                    .width(200.dp),
+                    .width(200.dp)
+                    .background(color = AccentGreen02),
                 offset = DpOffset(50.dp, 0.dp)
             ) {
                 for (difficulte in difficulteSet.keys) {
                     DropdownMenuItem(
-                        text = { Text(difficulte) },
+                        text = { Text(difficulte, color = Color.White) },
                         onClick = ({
                             selectedOption = difficulte;
                             isExpanded = !isExpanded
-                        })
+                        }),
                     )
                 }
             }

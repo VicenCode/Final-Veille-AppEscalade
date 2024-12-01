@@ -63,6 +63,9 @@ import com.example.appescaladegame.ui.theme.Dark
 val REGEX_VALIDE_INPUT = "^[a-zA-Z0-9]+$".toRegex();
 
 fun saveUsername(username : String) : String {
+    if(username.length > 12)
+        return "Longeur Maximale de 12 charactères"
+
     if(!REGEX_VALIDE_INPUT.containsMatchIn(username)) {
         return "Username doit contenir des charactères alphanumériques seulement";
     }
@@ -215,7 +218,9 @@ fun PageInscription(navController: NavController) {
                         errorMessage = messageRetourne;
                     }
                     else {
-                        navController.navigate("page_accueil");
+                        navController.navigate("page_accueil"){
+                            popUpTo("page_inscription") {inclusive = true}
+                        };
                     }
                 }),
                 Modifier.fillMaxWidth().padding(vertical = 20.dp).height(80.dp),

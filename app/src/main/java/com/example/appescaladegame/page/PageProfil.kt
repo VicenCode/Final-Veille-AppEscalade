@@ -14,8 +14,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -41,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
+import com.example.appescaladegame.component.BadgeItem
 import com.example.appescaladegame.component.BarreProgres
 import com.example.appescaladegame.fileService
 import com.example.appescaladegame.ui.theme.AccentGreen02
@@ -104,11 +111,12 @@ fun PageProfil(navController: NavController) {
             }
 
             Row (
-                Modifier.width(widthNom),
+                modifier = Modifier.width(widthNom.coerceIn(100.dp, 150.dp)),
                 horizontalArrangement = Arrangement.End
             ){
                 Text(
                     text = utilisateur.titre.titre,
+                    maxLines = 1,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     style = TextStyle(
@@ -165,16 +173,14 @@ fun PageProfil(navController: NavController) {
                 color = AccentGreen02
             )
 
-            Row {
-                LazyColumn {
-                    items(count = utilisateur.badges.size) { index ->
-                        val badge = utilisateur.badges[index];
-                        Text(text = badge.titre)
-                        Text(text = badge.nomImage)
-                        Spacer(modifier = Modifier
-                            .size(20.dp)
-                            .fillMaxWidth())
-                    }
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Fixed(2),
+                verticalItemSpacing = 30.dp,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(count = utilisateur.badges.size) { index ->
+                    val badge = utilisateur.badges[index];
+                    BadgeItem(titre = badge.titre, imageName = badge.nomImage)
                 }
             }
         }
