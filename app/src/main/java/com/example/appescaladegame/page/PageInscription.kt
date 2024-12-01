@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -140,9 +141,14 @@ fun PageInscription(navController: NavController) {
 
 
         Column(
-            Modifier.weight(1f)
+            Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
         ) {
-            
+            Image(
+                painter = painterResource(id = R.drawable.monkey_gb),
+                contentDescription = "Image Accueil",
+                modifier = Modifier.scale(1.5f)
+            )
         }
 
         Column(
@@ -172,7 +178,7 @@ fun PageInscription(navController: NavController) {
                 }),
                 shape = RoundedCornerShape(6.dp),
                 label = { Text(text = "Entrez votre nom d'utilisateur") },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = Color(1, 1, 1, alpha = 0),
                     focusedContainerColor = Color(1, 1, 1, alpha = 0 ),
@@ -183,7 +189,6 @@ fun PageInscription(navController: NavController) {
 
                 ),
                 singleLine = true
-
             )
             if(isError) {
                 Spacer(modifier = Modifier
@@ -223,7 +228,10 @@ fun PageInscription(navController: NavController) {
                         };
                     }
                 }),
-                Modifier.fillMaxWidth().padding(vertical = 20.dp).height(80.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp)
+                    .height(80.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = AccentGreen02),
                 shape = RectangleShape
             ) {
