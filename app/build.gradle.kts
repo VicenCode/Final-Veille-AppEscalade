@@ -69,4 +69,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("androidx.navigation:navigation-compose:2.8.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+    implementation ("io.github.ehsannarmani:compose-charts:0.0.18")
 }

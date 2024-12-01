@@ -2,12 +2,15 @@ package com.example.appescaladegame.service
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.example.appescaladegame.modele.Badge
 import com.example.appescaladegame.modele.Mur
 import com.example.appescaladegame.modele.Progression
+import com.example.appescaladegame.modele.Titre
 import com.example.appescaladegame.modele.Utilisateur
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
+import kotlin.math.pow
 
 class FileService(
     private val fichierJsonMursPath : String ,
@@ -23,7 +26,7 @@ class FileService(
     }
 
     init {
-        resetFiles();
+        //resetFiles();
         if(isFichierExiste(fichierJsonUtilisateurPath) || isFichierExiste(fichierJsonMursPath)) {
             utilisateurInBD = readUserData();
             mursInBD = readMursData();
@@ -35,7 +38,7 @@ class FileService(
                     expActuelle = 0.0,
                     niveauActuel = 1,
                 ),
-                titre = "Novice",
+                titre = Titre("Novice", listOf(0xFFEAA48A, 0xFF3E2120)),
                 badges = mutableListOf()
             );
 
@@ -56,7 +59,7 @@ class FileService(
                 expActuelle = 0.0,
                 niveauActuel = 1,
             ),
-            titre = "Novice",
+            titre = Titre("Novice", listOf(0xFFEAA48A, 0xFF3E2120)),
             badges = mutableListOf()
         );
 
@@ -75,6 +78,8 @@ class FileService(
 
     fun saveMur(newMur : Mur) {
         mursInBD.add(newMur);
+        increaseUtilisateurExp(newMur.score);
+
         val json = Json.encodeToString(mursInBD);
         File(fichierJsonMursPath).writeText(json);
     }
@@ -92,6 +97,56 @@ class FileService(
     private fun saveUtilisateur() {
         val json = Json.encodeToString(utilisateurInBD);
         File(fichierJsonUtilisateurPath).writeText(json);
+    }
+
+    private fun increaseUtilisateurExp(score : Double) {
+        var totalExp = utilisateurInBD.progression.expActuelle + score;
+        var expNextLevel = (utilisateurInBD.progression.niveauActuel + 1 / 0.05).pow(2.0)
+
+
+        while(totalExp >= expNextLevel)  {
+            utilisateurInBD.progression.niveauActuel++;
+            totalExp -= expNextLevel
+            expNextLevel = (utilisateurInBD.progression.niveauActuel + 1 / 0.05).pow(2.0)
+        }
+
+        utilisateurInBD.progression.expActuelle = totalExp;
+        verifierTitre();
+        verifierBadges();
+
+        saveUtilisateur();
+    }
+
+    private fun verifierTitre() {
+        val niveauActuel = utilisateurInBD.progression.niveauActuel;
+
+        if(niveauActuel <= 10) {
+            utilisateurInBD.titre = Titre("Novice", listOf(0xFFEAA48A, 0xFF3E2120));
+        }
+        else if(niveauActuel <= 30) {
+            utilisateurInBD.titre = Titre("Amateur", listOf(0xFFD6DEF7, 0xFF4B5F97));
+        }
+        else if(niveauActuel <= 50) {
+            utilisateurInBD.titre = Titre("Avancé", listOf(0xFF3F9471, 0xFF074E30));
+        }
+    }
+
+    private fun verifierBadges() {
+        val listeBadges = utilisateurInBD.badges
+
+
+        if(mursInBD.size == 1 && !listeBadges.contains(Badge("Premier Mur", "permier_mur_badge.png"))) {
+            listeBadges.add(Badge("Premier Mur", "permier_mur_badge.png"))
+        }
+
+
+        if(mursInBD.filter { mur ->  mur.nbEssais == 1}.size == 10 && !listeBadges.contains(Badge("10eme Flash", "10eme_flash_badge.png"))) {
+            listeBadges.add(Badge("10eme Flash", "10eme_flash_badge.png"))
+        }
+
+        if(mursInBD.size >= 20 && !listeBadges.contains(Badge("20 Murs", "20_murs_badge.png"))) {
+            listeBadges.add(Badge("20 Murs", "20_murs_badge.png"))
+        }
     }
 
 

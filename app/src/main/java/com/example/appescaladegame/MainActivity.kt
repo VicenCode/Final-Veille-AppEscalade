@@ -14,7 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.appescaladegame.page.PageAccueil
+import com.example.appescaladegame.page.PageAjoutMur
 import com.example.appescaladegame.page.PageInscription
+import com.example.appescaladegame.page.PageProfil
 import com.example.appescaladegame.service.FileService
 import com.example.appescaladegame.ui.theme.AppEscaladeGameTheme
 import java.time.LocalDateTime
@@ -52,6 +54,8 @@ fun App() {
     ) {
         composable("page_inscription") { PageInscription(navController) }
         composable("page_accueil") { PageAccueil(navController) }
+        composable("page_ajout") { PageAjoutMur(navController) }
+        composable("page_profil") { PageProfil(navController) }
     }
 }
 

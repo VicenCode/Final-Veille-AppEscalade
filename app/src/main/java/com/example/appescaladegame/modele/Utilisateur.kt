@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class Utilisateur(
     var userName : String,
     var progression: Progression,
-    var titre : String,
-    var badges: List<String>
+    var titre : Titre,
+    var badges: MutableList<Badge>
 )
