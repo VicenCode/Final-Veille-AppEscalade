@@ -26,7 +26,9 @@ class FileService(
     }
 
     init {
-        resetFiles();
+        // RESET LES FILES APRÈS CHAQUE LANCEMENT
+        // A DES FINS DE TESTS
+        //resetFiles();
         if(isFichierExiste(fichierJsonUtilisateurPath) || isFichierExiste(fichierJsonMursPath)) {
             utilisateurInBD = readUserData();
             mursInBD = readMursData();
